@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pegasus Ground Station</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="icon" type="image/png" href="./images/logo.png">    
+
+    <!--
+    <link rel="stylesheet" href="/public/css/styles.css">
+    <link rel="icon" type="image/png" href="/public/images/logo.png">  
+    -->
+
+</head>
+
+<body>
+    <div id="ground-station">
+        <header id="header">
+            <img src="images/logo.png" alt="Logo Pegasus" width="100">
+            <h1 id="header-text">Pegasus Ground Station</h1>
+        </header>
+        
+        <main id="main-box">
+
+            <div id="dashboard">
+                <div class="chart-container" id="chart-co2">
+                    <h2>CO2 vs t</h2>
+                    <canvas id="co2Chart"></canvas>
+                </div>
+                <div class="chart-container" id="chart-pressure">
+                    <h2>Presión vs t</h2>
+                    <canvas id="pressureChart"></canvas>
+                </div>
+                <div class="chart-container" id="chart-altitude">
+                    <h2>Altura vs t</h2>
+                    <canvas id="altitudeChart"></canvas>
+                </div>
+                <div class="chart-container" id="chart-temperature">
+                    <h2>Temperatura vs t</h2>
+                    <canvas id="temperatureChart"></canvas>
+                </div>
+                <div class="chart-container" id="chart-speed">
+                    <h2>Velocidad vs t</h2>
+                    <canvas id="speedChart"></canvas>
+                </div>
+                <div class="chart-container" id="chart-acceleration">
+                    <h2>Aceleración vs t</h2>
+                    <canvas id="accelerationChart"></canvas>
+                </div>
+            </div>
+
+            <aside id="status-panel">
+                <div id="connection-status">
+                    <span id="status-text">Conexión</span>
+                    <div id="status-indicators">
+                        <span class="status-light" id="status-red"></span>
+                        <span class="status-light" id="status-yellow"></span>
+                        <span class="status-light" id="status-green"></span>
+                    </div>
+                </div>
+                <div id="latency">Latencia: <span id="latency-value">120 ms</span></div>
+                <div id="timer">00:00</div>
+            </aside>
+
+        </main>
+        
+        
+        
+        
+        <section id="data-panel">
+            <div class="sensor-data">
+                <span>CO₂:</span> <span id="co2-value">1000 ppm</span>
+            </div>
+            <div class="sensor-data">
+                <span>Presión:</span> <span id="pressure-value">101325 Pa</span>
+            </div>
+            <div class="sensor-data">
+                <span>Temperatura:</span> <span id="temperature-value">20°C</span>
+            </div>
+            <div class="velocity-data">
+                <span>Velocidad (ejes):</span>
+                <span>x: <span id="velocity-x">5</span> m/s</span>
+                <span>y: <span id="velocity-y">7</span> m/s</span>
+                <span>z: <span id="velocity-z">20</span> m/s</span>
+            </div>
+            <div class="acceleration-data">
+                <span>Aceleración (ejes):</span>
+                <span>x: <span id="acceleration-x">1</span> m/s²</span>
+                <span>y: <span id="acceleration-y">0.5</span> m/s²</span>
+                <span>z: <span id="acceleration-z">9.81</span> m/s²</span>
+            </div>
+            <div id="gps-data">
+                <span>GPS:</span>
+                <span>Latitud: <span id="latitude">-</span></span>
+                <span>Longitud: <span id="longitude">-</span></span>
+                <span>Altitud: <span id="altitude">-</span></span>
+            </div>
+        </section>
+        
+        <footer id="controls">
+            <button id="info-btn">Información</button>
+            <button id="settings-btn">Ajustes</button>
+            <button id="end-mission-btn">Finalizar misión</button>
+        </footer>
+    </div>
+</body>
+</html>

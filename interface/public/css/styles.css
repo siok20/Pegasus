@@ -1,0 +1,134 @@
+body {
+    font-family: 'Exo', sans-serif;
+    background-color: #2b3e50;
+    color: black;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#ground-station {
+    width: 100%;
+    background-color: #3A506B;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#header {
+    display: flex;
+    align-items: center;
+    background-color: #D9D9D9;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#header h1 {
+    padding-left: 25px;
+}
+
+#main-box {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch; 
+}
+
+
+#dashboard {
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.chart-container {
+    background-color: #e1e0e0;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(137, 134, 134, 0.2);
+}
+
+#status-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+    margin-left: 15px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #263645; 
+    gap: 10px; 
+}
+
+#connection-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Asegura que los elementos se centren */
+    gap: 10px; /* Espaciado entre el texto y los indicadores */
+}
+
+#status-text {
+    background-color: #d3d3d3;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-align: center;
+    display: inline-block; /* Asegura que ocupe espacio adecuado */
+}
+
+#status-indicators {
+    display: flex;
+    gap: 10px; 
+}
+
+.status-light {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: gray; /* Color por defecto */
+}
+
+#latency, #timer {
+    background-color: #a9cce3; /* Un azul más oscuro */
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+    width: 80px;
+    font-weight: bold;
+}
+
+#data-panel {
+    margin-top: 15px;
+    background-color: #263645;
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.sensor-data, .velocity-data, .acceleration-data, #gps-data {
+    background-color: #3a4f66;
+    padding: 10px;
+    border-radius: 5px;
+}
+#controls {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
