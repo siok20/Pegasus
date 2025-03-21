@@ -57,6 +57,7 @@ body {
 #status-panel {
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
     margin-top: 15px;
     margin-left: 15px;
@@ -64,22 +65,38 @@ body {
     border-radius: 5px;
     background-color: #263645; 
     gap: 10px; 
+    font-weight: bold;
+    font-size: larger;
+}
+
+#status-panel div {
+    flex-grow: 1; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px; 
+    width: 80%; 
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
 }
 
 #connection-status {
     display: flex;
+    justify-content: space-evenly;
     flex-direction: column;
-    align-items: center; /* Asegura que los elementos se centren */
-    gap: 10px; /* Espaciado entre el texto y los indicadores */
+    align-items: center; 
+    gap: 10px;
 }
 
 #status-text {
     background-color: #d3d3d3;
     font-weight: bold;
+    font-size: 30px;
     padding: 10px 20px;
     border-radius: 20px;
     text-align: center;
-    display: inline-block; /* Asegura que ocupe espacio adecuado */
+    display: inline-block; 
 }
 
 #status-indicators {
@@ -88,19 +105,69 @@ body {
 }
 
 .status-light {
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    background-color: gray; /* Color por defecto */
+    background-color: gray; 
 }
 
-#latency, #timer {
-    background-color: #a9cce3; /* Un azul más oscuro */
+#status-red{
+    background-color: red;
+}
+
+#status-yellow{
+    background-color: yellow;
+}
+
+#status-green{
+    background-color: green;
+}
+
+#latency {
+    flex-direction: column;
+    background-color: #a9cce3; 
     padding: 10px;
     border-radius: 20px;
     text-align: center;
-    width: 80px;
+    width: 80%;
+    margin-top: 10px;
     font-weight: bold;
+} 
+
+#timer {
+    flex-direction: column;
+    background-color: #a9cce3; 
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+    width: 80%;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 50px;
+}
+
+#init-mision {
+    background-color: #4eff7a;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-align: center;
+    display: inline-block; 
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#reconection {
+    background-color: #ff8f4e;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-align: center;
+    display: inline-block; 
+    cursor: pointer;
+    margin-top: 10px;
 }
 
 #data-panel {
