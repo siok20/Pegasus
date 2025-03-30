@@ -11,13 +11,18 @@ body {
 }
 
 #ground-station {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
     background-color: #3A506B;
     border-radius: 10px;
     padding: 20px;
+    overflow: hidden;
 }
 
 #header {
+    height: 5vh;
     display: flex;
     align-items: center;
     background-color: #D9D9D9;
@@ -30,10 +35,12 @@ body {
 }
 
 #main-box {
-    height: 100%;
+    height: 80vh;
+    flex-grow: 1;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    align-items: stretch; 
+    overflow: hidden;
 }
 
 
@@ -52,9 +59,17 @@ body {
     text-align: center;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(137, 134, 134, 0.2);
+    
+    overflow: hidden;
+    justify-content: center;
 }
 
-#status-panel {
+canvas{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#status-panel, #buttons-panel {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -147,7 +162,7 @@ body {
     font-size: 50px;
 }
 
-#init-mision {
+#init-mision, #info-btn, #settings-btn, #end-mission-btn {
     background-color: #4eff7a;
     font-weight: bold;
     font-size: 40px;
@@ -171,74 +186,145 @@ body {
     margin-top: 10px;
 }
 
-#data-panel {
-    margin-top: 15px;
-    background-color: #263645;
-    padding: 15px;
+#panel {
+    padding: 10px 0px;
+    margin: 10px 0px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-grow: 1; 
+    overflow: auto;
     border-radius: 5px;
+    flex-grow: 1;
+}
+
+#data-panel {
+    width: 90%;
+    margin: 15px;
+    margin-top: 25px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+
+}
+
+#column1{
+    width: 25%;
+    display: flex; 
+    flex-direction: column;  
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+    background-color: #D9D9D9;
+    font-size: 20px;
+    border-radius: 15px;
+}
+
+#column2{
+    width: 75%;
+    margin: 10px;
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    width: fit-content;
+    background-color: #D9D9D9;
+    border-radius: 15px;
+}
+
+.section {
+    margin-bottom: 15px;
     display: flex;
     justify-content: space-between;
 }
-.sensor-data, .velocity-data, .acceleration-data, #gps-data {
-    background-color: #3a4f66;
-    padding: 10px;
-    border-radius: 5px;
+
+.title {
+    width: 200px;
+    display: block;
+    font-weight: bold;
+    background-color: #2e4b5f;
+    color: white;
+    padding: 8px 12px;
+    margin: 10px 12px;
+    border-radius: 6px;
+    display: inline-block;
 }
-#controls {
+
+.data {
+    display: flex;
+    gap: 10px;
+    margin: 10px;
+    flex-wrap: wrap;
+}
+
+.box {
+    width: 200px;
+    background-color: #5D8091;
+    color: white;
+    padding: 8px 12px;
+    margin-top: 10px;
+    border-radius: 6px;
+    min-width: 80px;
+    text-align: center;
+}
+
+.sensor-data{
+    background-color: #2D4652;
+    width: 50%;
+    padding: 10px 10px;
+    margin: 15px 10px;
+    border-radius: 5px;
+    flex-grow: 1;
+}
+
+.container-data{
+    background-color: #2D4652;
+    width: auto;
+    padding: 2px 20px;
+    margin: 5px 10px;
+    border-radius: 5px;
+    flex-grow: 1;
+}
+
+.velocity-data, .acceleration-data, .gps-data {
+    background-color: #2D4652;
+    width: 50%;
+    padding: 10px 20px;
+    margin: 20px 10px;
+    border-radius: 5px;
+    flex-grow: 1;
+}
+
+#buttons-panel {
     display: flex;
     justify-content: space-around;
     margin-top: 15px;
 }
-button {
-    background-color: #007bff;
+
+#info-btn{
+    font-size: 30px;
     color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-button:hover {
-    background-color: #0056b3;
+    color: white;
+    background-color: #235633;
 }
 
-@media (max-width: 1024px) {
-    #main-box {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    #dashboard {
-        grid-template-columns: repeat(2, 1fr);
-    }
+#settings-btn{
+    font-size: 30px;
+    color: white;
+    background-color:  #040404;
 }
 
-@media (max-width: 768px) {
-    #header {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    #dashboard {
-        grid-template-columns: 1fr;
-    }
-    
-    #status-panel {
-        width: 100%;
-    }
+#end-mission-btn{
+    font-size: 30px;
+    background-color:  #B72828;
 }
 
-@media (max-width: 480px) {
-    #ground-station {
-        padding: 10px;
-    }
-    
-    #status-text {
-        font-size: 20px;
-        padding: 5px 10px;
-    }
-    
-    #init-mision, #reconection {
-        font-size: 20px;
-        padding: 8px 15px;
-    }
+button:hover{
+    background-color: #a9cce3 !important;
 }
