@@ -60,7 +60,7 @@
                         <span class="status-light" id="status-green"></span>
                     </div>
                 </div>
-                <div id="latency">LATENCIA <span id="latency-value">120 ms</span></div>
+                <div id="latency">LATENCIA<span id="latency-value">120 ms</span></div>
                 <div id="timer">00:00</div>
 
                 <div id="init-mision">Iniciar</div>
@@ -71,42 +71,43 @@
         
         
         
-        
-        <section id="data-panel">
-            <div class="sensor-data">
-                <span>CO₂:</span> <span id="co2-value">1000 ppm</span>
+        <section>
+            <div id="data-panel">
+                <div class="sensor-data">
+                    <span>CO₂:</span> <span id="co2-value">1000 ppm</span>
+                </div>
+                <div class="sensor-data">
+                    <span>Presión:</span> <span id="pressure-value">101325 Pa</span>
+                </div>
+                <div class="sensor-data">
+                    <span>Temperatura:</span> <span id="temperature-value">20°C</span>
+                </div>
+                <div class="velocity-data">
+                    <span>Velocidad (ejes):</span>
+                    <span>x: <span id="velocity-x">5</span> m/s</span>
+                    <span>y: <span id="velocity-y">7</span> m/s</span>
+                    <span>z: <span id="velocity-z">20</span> m/s</span>
+                </div>
+                <div class="acceleration-data">
+                    <span>Aceleración (ejes):</span>
+                    <span>x: <span id="acceleration-x">1</span> m/s²</span>
+                    <span>y: <span id="acceleration-y">0.5</span> m/s²</span>
+                    <span>z: <span id="acceleration-z">9.81</span> m/s²</span>
+                </div>
+                <div id="gps-data">
+                    <span>GPS:</span>
+                    <span>Latitud: <span id="latitude">-</span></span>
+                    <span>Longitud: <span id="longitude">-</span></span>
+                    <span>Altitud: <span id="altitude">-</span></span>
+                </div>
             </div>
-            <div class="sensor-data">
-                <span>Presión:</span> <span id="pressure-value">101325 Pa</span>
-            </div>
-            <div class="sensor-data">
-                <span>Temperatura:</span> <span id="temperature-value">20°C</span>
-            </div>
-            <div class="velocity-data">
-                <span>Velocidad (ejes):</span>
-                <span>x: <span id="velocity-x">5</span> m/s</span>
-                <span>y: <span id="velocity-y">7</span> m/s</span>
-                <span>z: <span id="velocity-z">20</span> m/s</span>
-            </div>
-            <div class="acceleration-data">
-                <span>Aceleración (ejes):</span>
-                <span>x: <span id="acceleration-x">1</span> m/s²</span>
-                <span>y: <span id="acceleration-y">0.5</span> m/s²</span>
-                <span>z: <span id="acceleration-z">9.81</span> m/s²</span>
-            </div>
-            <div id="gps-data">
-                <span>GPS:</span>
-                <span>Latitud: <span id="latitude">-</span></span>
-                <span>Longitud: <span id="longitude">-</span></span>
-                <span>Altitud: <span id="altitude">-</span></span>
+            <div id="controls">
+                <button id="info-btn">Información</button>
+                <button id="settings-btn">Ajustes</button>
+                <button id="end-mission-btn">Finalizar misión</button>
             </div>
         </section>
         
-        <footer id="controls">
-            <button id="info-btn">Información</button>
-            <button id="settings-btn">Ajustes</button>
-            <button id="end-mission-btn">Finalizar misión</button>
-        </footer>
     </div>
 </body>
 </html>

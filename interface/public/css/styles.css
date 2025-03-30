@@ -132,6 +132,7 @@ body {
     width: 80%;
     margin-top: 10px;
     font-weight: bold;
+    font-size: 25px;
 } 
 
 #timer {
@@ -149,7 +150,7 @@ body {
 #init-mision {
     background-color: #4eff7a;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 40px;
     padding: 10px 20px;
     border-radius: 20px;
     text-align: center;
@@ -198,4 +199,46 @@ button {
 }
 button:hover {
     background-color: #0056b3;
+}
+
+@media (max-width: 1024px) {
+    #main-box {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    #dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    #header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    #dashboard {
+        grid-template-columns: 1fr;
+    }
+    
+    #status-panel {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    #ground-station {
+        padding: 10px;
+    }
+    
+    #status-text {
+        font-size: 20px;
+        padding: 5px 10px;
+    }
+    
+    #init-mision, #reconection {
+        font-size: 20px;
+        padding: 8px 15px;
+    }
 }
