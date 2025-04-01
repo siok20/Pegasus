@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pegasus Ground Station - Ajustes</title>
+    <link rel="icon" type="image/png" href="./images/logo.png">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/options.css">
+</head>
+<body>
+    <div class="settings-container">
+        <div class="header">
+            <button onclick="location.href='index.html'"><i class="back-button fa fa-arrow-left"></i></button>
+            <h1 class="title">Pegasus Ground Station - Ajustes</h1>
+            <img src="images/logo.png" alt="Logo Pegasus" class="logo">
+        </div>
+        
+        <div class="setting-group">
+            <label class="setting-label" for="server-address">Dirección:</label>
+            <span id="server-address" class="setting-value">http://localhost:3000</span>
+        </div>
+        
+        <div class="setting-group">
+            <label class="setting-label">Tasa de actualización:</label>
+            <div class="button-group" id="update-rate">
+                <button class="rate-button">0.5 s</button>
+                <button class="rate-button active">1.0 s</button>
+                <button class="rate-button">1.5 s</button>
+            </div>
+        </div>
+        
+        <div class="setting-group">
+            <label class="setting-label">Información mostrada:</label>
+            <div class="button-group" id="data-display">
+                <button class="display-button active">Toda</button>
+                <button class="display-button">Últimos 50</button>
+                <button class="display-button">Últimos 20</button>
+                <button class="display-button">Últimos 10</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
