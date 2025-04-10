@@ -4,14 +4,19 @@ on:
   push:
     branches:
       - main
+      - backend
   
   pull_request:
     branches:
       - main
 
 jobs:
-  build:
+  build_frontend:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: interface
 
     steps:
     - name: Checkout code
@@ -24,5 +29,4 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd interface
         npm install
