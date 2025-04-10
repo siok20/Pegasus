@@ -26,22 +26,27 @@
 
             <div id="dashboard">
                 <div class="chart-container" id="chart-co2">
-                    <canvas id="co2Chart"></canvas>
+                    <canvas class="time-chart" id="co2Chart"></canvas>
+                    <canvas class="altitude-chart" id="co2ChartH"></canvas>
                 </div>
                 <div class="chart-container" id="chart-pressure">
-                    <canvas id="pressureChart"></canvas>
+                    <canvas class="time-chart" id="pressureChart"></canvas>
+                    <canvas class="altitude-chart" id="pressureChartH"></canvas>
                 </div>
                 <div class="chart-container" id="chart-altitude">
                     <canvas id="altitudeChart"></canvas>
                 </div>
                 <div class="chart-container" id="chart-temperature">
-                    <canvas id="temperatureChart"></canvas>
+                    <canvas class="time-chart" id="temperatureChart"></canvas>
+                    <canvas class="altitude-chart" id="temperatureChartH"></canvas>
                 </div>
                 <div class="chart-container" id="chart-speed">
-                    <canvas id="speedChart"></canvas>
+                    <canvas class="time-chart" id="speedChart"></canvas>
+                    <canvas class="altitude-chart" id="speedChartH"></canvas>
                 </div>
                 <div class="chart-container" id="chart-acceleration">
-                    <canvas id="accelerationChart"></canvas>
+                    <canvas class="time-chart"  id="accelerationChart"></canvas>
+                    <canvas class="altitude-chart" id="accelerationChartH"></canvas>
                 </div>
             </div>
 
@@ -69,16 +74,16 @@
             <div id="data-panel">
                 <div id="column1">
                     <div class="sensor-data">
-                        <span>CO₂    :</span> <span id="co2-value">1000 ppm</span>
+                        <span>CO₂    :</span> <span id="co2-value">1000 </span>ppm<span> </span>
                     </div>
                     <div class="sensor-data">
-                        <span>Presión    :</span> <span id="pressure-value">101325 Pa</span>
+                        <span>Presión    :</span> <span id="pressure-value">101325 </span>Pa<span></span>
                     </div>
                     <div class="sensor-data">
-                        <span>Temperatura   :</span> <span id="temperature-value">20°C</span>
+                        <span>Temperatura   :</span> <span id="temperature-value">20 </span>ºC<span></span>
                     </div>
                     <div class="sensor-data">
-                        <span>Ángulo    :</span> <span id="angulo-value">10°</span>
+                        <span>Ángulo    :</span> <span id="angulo-value">10</span>º<span></span>
                     </div>
                 </div>
 
@@ -114,8 +119,10 @@
                 </div>
             </div>
             <div id="buttons-panel">
-                <button id="info-btn">Información</button>
-                <button id="settings-btn" onclick="location.href='options.html'">Ajustes</button>
+                <div id="info-btn">
+                    <button id="info-btn-1">Tiempo</button>
+                    <button id="info-btn-2">Altura</button>
+                </div>                <button id="settings-btn" onclick="location.href='options.html'">Ajustes</button>
                 <button id="end-mission-btn">Finalizar misión</button>
             </div>
         </section>

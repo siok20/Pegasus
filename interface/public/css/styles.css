@@ -162,7 +162,7 @@ canvas{
     font-size: 50px;
 }
 
-#init-mision, #info-btn, #settings-btn, #end-mission-btn {
+#init-mision, #settings-btn, #end-mission-btn {
     background-color: #4eff7a;
     font-weight: bold;
     font-size: 40px;
@@ -172,6 +172,42 @@ canvas{
     display: inline-block; 
     cursor: pointer;
     margin-top: 10px;
+}
+
+#info-btn {
+    display: flex;
+    gap: 10px; 
+}
+
+#info-btn button{
+    font-weight: bold;
+    font-size: 30px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-align: center;
+    display: inline-block; 
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#info-btn-1 {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Color de fondo */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#info-btn-2 {
+    padding: 10px 20px;
+    background-color: #abcbac; /* Color de fondo */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#info-btn button:hover {
+    background-color: #45a049; /* Color de fondo cuando se pasa el ratón */
 }
 
 #reconection {
@@ -187,6 +223,7 @@ canvas{
 }
 
 #panel {
+    height: 40vh;
     padding: 10px 0px;
     margin: 10px 0px;
     display: flex;
@@ -307,12 +344,6 @@ canvas{
     margin-top: 15px;
 }
 
-#info-btn{
-    font-size: 30px;
-    color: white;
-    color: white;
-    background-color: #235633;
-}
 
 #settings-btn{
     font-size: 30px;
