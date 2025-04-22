@@ -59,6 +59,68 @@ function initializeChart(canvasId, label, color, isAltitude = false) {
     isAltitude? chartsH[canvasId] = chart:charts[canvasId] = chart;
 }
 
+function initializeChart3(canvasId, label, color, isAltitude = false) {
+    const ctx = document.getElementById(canvasId).getContext("2d");
+
+    const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: [],
+            datasets: [
+                {
+                    label: label + " - Línea 1",
+                    data: [],
+                    borderColor: color,
+                    backgroundColor: "transparent",
+                    fill: false,
+                    tension: 0.4
+                },
+                {
+                    label: label + " - Línea 2",
+                    data: [],
+                    borderColor: "#00ff00",  // Cambia este color a tu preferencia
+                    backgroundColor: "transparent",
+                    fill: false,
+                    tension: 0.4
+                },
+                {
+                    label: label + " - Línea 3",
+                    data: [],
+                    borderColor: "#0000ff",  // Cambia este color a tu preferencia
+                    backgroundColor: "transparent",
+                    fill: false,
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            scales: {
+                x: {
+                    title: { display: true, text: isAltitude ? "Altura (m)" : "Tiempo (s)" },
+                    min: isAltitude ? -400 : undefined,
+                    max: isAltitude ? 400 : undefined
+                },
+                y: {
+                    title: { display: true, text: label }
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: label + (isAltitude ? " vs Altura" : " vs Tiempo"),
+                    font: { size: 18, weight: "bold" },
+                    padding: 10
+                }
+            }
+        }
+    });
+
+    isAltitude ? chartsH[canvasId] = chart : charts[canvasId] = chart;
+}
+
 let dataInterval;
 // Actualiza datos cada segundo
 function addDataEverySecond() {
@@ -179,23 +241,63 @@ function activate() {
     // Inicializar gráficos vacíos
     initializeChart("co2Chart", "CO2 (ppm)", "#ff5733");
     initializeChart("pressureChart", "Presión (Pa)", "#3366ff");
+    initializeChart3("accelerationChart", "Aceleración (m/s²)", "#ff6600");
     initializeChart("temperatureChart", "Temperatura (°C)", "#ffcc00");
-    initializeChart("speedChart", "Velocidad (m/s)", "#9900cc");
-    initializeChart("accelerationChart", "Aceleración (m/s²)", "#ff6600");
+    initializeChart3("speedChart", "Velocidad (m/s)", "#9900cc");
     initializeChart("altitudeChart", "Altitud (m)", "#33cc33");
 
     initializeChart("co2ChartH", "CO2 (ppm)", "#ff5733", true);
     initializeChart("pressureChartH", "Presión (Pa)", "#3366ff", true);
     initializeChart("temperatureChartH", "Temperatura (°C)", "#ffcc00", true);
-    initializeChart("speedChartH", "Velocidad (m/s)", "#9900cc", true);
-    initializeChart("accelerationChartH", "Aceleración (m/s²)", "#ff6600", true);
+    initializeChart3("speedChartH", "Velocidad (m/s)", "#9900cc", true);
+    initializeChart3("accelerationChartH", "Aceleración (m/s²)", "#ff6600", true);
 
     btn1.disabled = false;
     btn2.disabled = false;
 
+    const socket = io('http://localhost:3000');
+
+    socket.on('connect', () => {
+        console.log('Conectado con ID:', socket.id);
+        socket.emit('mensaje', { texto: '¡Hola servidor!' });
+    });
+
+    socket.on('respuesta', (data) => {
+        console.log('Respuesta del servidor:', data);
+    });
+
+    socket.on('temperatura', (data) => {
+        const {temperature, tiempo} = data
+
+        chart = charts["temperatureChart"]
+
+        chart.data.labels.push(tiempo);
+        chart.data.datasets[0].data.push(temperature);
+        chart.update();
+    });
+
+    socket.on('MPU', (data)=>{
+        console.log(data)
+        
+        const {ax, ay, az, gx, gy, gz, tiempo} = data
+
+        const currentTime = Date.now();
+
+        let time = currentTime - tiempo *1000
+        time = parseFloat(time.toFixed(2));
+
+        const accelChart = charts["accelerationChart"];
+        accelChart.data.labels.push(time);
+        accelChart.data.datasets[0].data.push(Math.sqrt(ax*ax + ay*ay + az*az)); // Magnitud de la aceleración
+        accelChart.update();
+    })
+
     // Empezar a añadir datos
-    addDataEverySecond();
+    //addDataEverySecond();
 }
+
 
 initMissionBtn.addEventListener("click", activate);
 endMissionBtn.addEventListener("click", stopAndResetTimer);
+
+
