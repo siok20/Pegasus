@@ -30,14 +30,25 @@ io.on('connection', (socket) => {
     console.log('Usuario desconectado:', socket.id);
   });
 
-  socket.on('datos', (data) => {
+  socket.on('MPU', (data) => {
     console.log('Datos recibidos:', data);
     io.emit('MPU', data);
   });
+
+  socket.on('BNO', (data) => {
+    console.log('Datos recibidos:', data);
+    io.emit('BNO', data);
+  });
+
+  socket.on('GPS', (data) => {
+    console.log('Datos recibidos:', data);
+    io.emit('GPS', data);
+  });
+
 });
 
 // Inicia el servidor
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log(`🌐 Servidor Express + Socket.IO corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

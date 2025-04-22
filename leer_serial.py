@@ -48,7 +48,7 @@ try:
                             'gx': valores[3], 'gy': valores[4], 'gz': valores[5], 'tiempo' : time.time()
                         }
                         
-                        sio.emit('datos', data)
+                        sio.emit('MPU', data)
                         print(f"Enviando: {json.dumps(data)}")
                 except (ValueError, IndexError) as e:
                     print(f"Error procesando datos: {e}")

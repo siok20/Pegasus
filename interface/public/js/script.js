@@ -246,11 +246,11 @@ function activate() {
     initializeChart3("speedChart", "Velocidad (m/s)", "#9900cc");
     initializeChart("altitudeChart", "Altitud (m)", "#33cc33");
 
-    initializeChart("co2ChartH", "CO2 (ppm)", "#ff5733", true);
+    /*initializeChart("co2ChartH", "CO2 (ppm)", "#ff5733", true);
     initializeChart("pressureChartH", "Presión (Pa)", "#3366ff", true);
     initializeChart("temperatureChartH", "Temperatura (°C)", "#ffcc00", true);
     initializeChart3("speedChartH", "Velocidad (m/s)", "#9900cc", true);
-    initializeChart3("accelerationChartH", "Aceleración (m/s²)", "#ff6600", true);
+    initializeChart3("accelerationChartH", "Aceleración (m/s²)", "#ff6600", true);*/
 
     btn1.disabled = false;
     btn2.disabled = false;
@@ -288,8 +288,70 @@ function activate() {
 
         const accelChart = charts["accelerationChart"];
         accelChart.data.labels.push(time);
-        accelChart.data.datasets[0].data.push(Math.sqrt(ax*ax + ay*ay + az*az)); // Magnitud de la aceleración
+        accelChart.data.datasets[0].data.push(ax); // Magnitud de la aceleración
+        accelChart.data.datasets[1].data.push(ay); // Magnitud de la aceleración
+        accelChart.data.datasets[2].data.push(az); // Magnitud de la aceleración
         accelChart.update();
+
+        document.getElementById("ax-box").innerText = `x : ${ax}  m/s²`
+        document.getElementById("ay-box").innerText = `y : ${ay}  m/s²`
+        document.getElementById("az-box").innerText = `z : ${az}  m/s²`
+
+        /*const velChart = charts["speedChart"];
+        velChart.data.labels.push(time);
+        velChart.data.datasets[0].data.push(ax); // Magnitud de la aceleración
+        velChart.data.datasets[1].data.push(ay); // Magnitud de la aceleración
+        velChart.data.datasets[2].data.push(az); // Magnitud de la aceleración
+        velChart.update();
+
+        document.getElementById("vx-box").innerText = `x : ${vx}  m/s`
+        document.getElementById("vy-box").innerText = `y : ${vy}  m/s`
+        document.getElementById("vz-box").innerText = `z : ${vz}  m/s`*/
+
+        document.getElementById("angulo-value").innerText = `${Math.sqrt(gx*gx + gy*gy + gz*gz)}`
+
+    })
+
+    socket.on('BNO', (data)=>{
+        console.log(data)
+        
+        const {presion,temperatura, altitud, tiempo} = data
+
+        const currentTime = Date.now();
+
+        let time = currentTime - tiempo *1000
+        time = parseFloat(time.toFixed(2));
+
+        const pressChart = charts["pressureChart"];
+        pressChart.data.labels.push(time);
+        pressChart.data.datasets[0].data.push(presion);
+        pressChart.update();
+        document.getElementById("pressure-value").innerText = `${presion}`
+
+
+        const tempChart = charts["temperatureChart"];
+        tempChart.data.labels.push(time);
+        tempChart.data.datasets[0].data.push(temperatura);
+        tempChart.update();
+        document.getElementById("temperature-value").innerText = `${temperatura}`
+
+
+        const altitChart = charts["altitudeChart"];
+        altitChart.data.labels.push(time);
+        altitChart.data.datasets[0].data.push(altitud);
+        altitChart.update();
+
+        document.getElementById("altitude-box").innerText = `Altitud: ${altitud}`
+
+    })
+
+    socket.on('GPS', (data)=>{
+        console.log(data)
+        
+        const {latitude, longitude, tiempo} = data
+
+        document.getElementById("latitude-box").innerText = `Latitud: ${latitude}`
+        document.getElementById("longitude-box").innerText = `Latitud: ${longitude}`
     })
 
     // Empezar a añadir datos
