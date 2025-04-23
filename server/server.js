@@ -35,9 +35,9 @@ io.on('connection', (socket) => {
     io.emit('MPU', data);
   });
 
-  socket.on('BNO', (data) => {
+  socket.on('BMP', (data) => {
     console.log('Datos recibidos:', data);
-    io.emit('BNO', data);
+    io.emit('BMP', data);
   });
 
   socket.on('GPS', (data) => {

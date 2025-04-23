@@ -312,10 +312,10 @@ function activate() {
 
     })
 
-    socket.on('BNO', (data)=>{
+    socket.on('BMP', (data)=>{
         console.log(data)
         
-        const {presion,temperatura, altitud, tiempo} = data
+        const {presion,temperatura, altitude, tiempo} = data
 
         const currentTime = Date.now();
 
@@ -338,10 +338,10 @@ function activate() {
 
         const altitChart = charts["altitudeChart"];
         altitChart.data.labels.push(time);
-        altitChart.data.datasets[0].data.push(altitud);
+        altitChart.data.datasets[0].data.push(altitude);
         altitChart.update();
 
-        document.getElementById("altitude-box").innerText = `Altitud: ${altitud}`
+        document.getElementById("altitude-box").innerText = `Altitud: ${altitude}`
 
     })
 
