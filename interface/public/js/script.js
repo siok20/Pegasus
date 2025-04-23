@@ -7,6 +7,8 @@ function linspace(start, stop, num) {
     return result;
 }
 
+let socket;
+
 const labels = linspace(0, 30, 31);
 const Hlabels = linspace(-400, 400, 801);
 
@@ -220,6 +222,11 @@ function stopAndResetTimer() {
 
     clearInterval(dataInterval);
 
+    if (socket && socket.connected) {
+        socket.disconnect();
+        console.log("Socket desconectado.");
+    }
+
     setTimeout(() => {
         seconds = 0;
         minutes = 0;
@@ -255,7 +262,7 @@ function activate() {
     btn1.disabled = false;
     btn2.disabled = false;
 
-    const socket = io('http://localhost:3000');
+    socket = io('http://localhost:3000');
 
     socket.on('connect', () => {
         console.log('Conectado con ID:', socket.id);
