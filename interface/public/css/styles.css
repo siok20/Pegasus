@@ -128,14 +128,17 @@ canvas{
 
 #status-red{
     background-color: red;
+    /*background-color:#e57575;*/
 }
 
 #status-yellow{
-    background-color: yellow;
+    /*background-color: yellow;*/
+    background-color: #fcffb3;
 }
 
 #status-green{
-    background-color: green;
+    /*background-color: green;*/
+    background-color: #bbffb3;
 }
 
 #latency {

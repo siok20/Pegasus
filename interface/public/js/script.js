@@ -7,6 +7,8 @@ function linspace(start, stop, num) {
     return result;
 }
 
+let socket;
+
 const labels = linspace(0, 30, 31);
 const Hlabels = linspace(-400, 400, 801);
 
@@ -68,7 +70,7 @@ function initializeChart3(canvasId, label, color, isAltitude = false) {
             labels: [],
             datasets: [
                 {
-                    label: label + " - Línea 1",
+                    label:  label.charAt(0).toLowerCase() + "x",
                     data: [],
                     borderColor: color,
                     backgroundColor: "transparent",
@@ -76,7 +78,7 @@ function initializeChart3(canvasId, label, color, isAltitude = false) {
                     tension: 0.4
                 },
                 {
-                    label: label + " - Línea 2",
+                    label:  label.charAt(0).toLowerCase() + "y",
                     data: [],
                     borderColor: "#00ff00",  // Cambia este color a tu preferencia
                     backgroundColor: "transparent",
@@ -84,7 +86,7 @@ function initializeChart3(canvasId, label, color, isAltitude = false) {
                     tension: 0.4
                 },
                 {
-                    label: label + " - Línea 3",
+                    label:  label.charAt(0).toLowerCase() + "z",
                     data: [],
                     borderColor: "#0000ff",  // Cambia este color a tu preferencia
                     backgroundColor: "transparent",
@@ -220,11 +222,20 @@ function stopAndResetTimer() {
 
     clearInterval(dataInterval);
 
+    if (socket.connected) {
+        socket.disconnect();
+        console.log("Socket desconectado.");
+        document.getElementById('status-yellow').style.backgroundColor = '#fcffb3';
+        document.getElementById('status-red').style.backgroundColor = 'red';
+        document.getElementById('status-green').style.backgroundColor = '#bbffb3';
+    }
+
     setTimeout(() => {
         seconds = 0;
         minutes = 0;
         updateTimerDisplay();
     }, 5000);
+
 }
 
 // Función principal al iniciar misión
@@ -235,31 +246,50 @@ chartsAltitude = document.querySelectorAll(".altitude-chart")
     chart.style.display = 'none';  
 });*/
 
+function status_yellow(){
+    document.getElementById('status-yellow').style.backgroundColor = 'yellow';
+    document.getElementById('status-red').style.backgroundColor = '#e57575';
+    document.getElementById('status-green').style.backgroundColor = '#bbffb3';
+}
+
+function status_green(){
+    document.getElementById('status-yellow').style.backgroundColor = '#fcffb3';
+    document.getElementById('status-red').style.backgroundColor = '#e57575';
+    document.getElementById('status-green').style.backgroundColor = 'green';
+}
+
+function status_red(){
+    document.getElementById('status-yellow').style.backgroundColor = '#fcffb3';
+    document.getElementById('status-red').style.backgroundColor = 'red';
+    document.getElementById('status-green').style.backgroundColor = '#bbffb3';
+}
+
+let startTime;
+
 function activate() {
-    startTimer();
 
-    // Inicializar gráficos vacíos
-    initializeChart("co2Chart", "CO2 (ppm)", "#ff5733");
-    initializeChart("pressureChart", "Presión (Pa)", "#3366ff");
-    initializeChart3("accelerationChart", "Aceleración (m/s²)", "#ff6600");
-    initializeChart("temperatureChart", "Temperatura (°C)", "#ffcc00");
-    initializeChart3("speedChart", "Velocidad (m/s)", "#9900cc");
-    initializeChart("altitudeChart", "Altitud (m)", "#33cc33");
-
-    /*initializeChart("co2ChartH", "CO2 (ppm)", "#ff5733", true);
-    initializeChart("pressureChartH", "Presión (Pa)", "#3366ff", true);
-    initializeChart("temperatureChartH", "Temperatura (°C)", "#ffcc00", true);
-    initializeChart3("speedChartH", "Velocidad (m/s)", "#9900cc", true);
-    initializeChart3("accelerationChartH", "Aceleración (m/s²)", "#ff6600", true);*/
+    startTime = Date.now();
 
     btn1.disabled = false;
     btn2.disabled = false;
 
-    const socket = io('http://localhost:3000');
+    socket = io('http://localhost:3000', {
+        reconnectionAttempts: 5,
+        timeout: 2000
+    });
+
+    status_yellow()
 
     socket.on('connect', () => {
         console.log('Conectado con ID:', socket.id);
         socket.emit('mensaje', { texto: '¡Hola servidor!' });
+        status_green()
+        startTimer();
+    });
+
+    socket.on('connect_error', () => {
+        console.log('Error al conectar');
+        status_red()
     });
 
     socket.on('respuesta', (data) => {
@@ -276,18 +306,26 @@ function activate() {
         chart.update();
     });
 
+    let vx = 0, vy = 0, vz = 0;
+    let lastTime = 0;
+
     socket.on('MPU', (data)=>{
         console.log(data)
         
         const {ax, ay, az, gx, gy, gz, tiempo} = data
 
-        const currentTime = Date.now();
+        const currentTime = Date.now();  // Tiempo actual
+        const elapsedTime = currentTime - startTime;  // Tiempo transcurrido en milisegundos
+        const seconds = Math.floor(elapsedTime / 1000);  // Segundos
+        const milliseconds = elapsedTime % 1000;  // Milisegundos
+
+        const formattedTime = `${seconds}.${milliseconds.toString().padStart(3, '0')}`;
 
         let time = currentTime - tiempo *1000
         time = parseFloat(time.toFixed(2));
 
         const accelChart = charts["accelerationChart"];
-        accelChart.data.labels.push(time);
+        accelChart.data.labels.push(formattedTime);
         accelChart.data.datasets[0].data.push(ax); // Magnitud de la aceleración
         accelChart.data.datasets[1].data.push(ay); // Magnitud de la aceleración
         accelChart.data.datasets[2].data.push(az); // Magnitud de la aceleración
@@ -297,18 +335,33 @@ function activate() {
         document.getElementById("ay-box").innerText = `y : ${ay}  m/s²`
         document.getElementById("az-box").innerText = `z : ${az}  m/s²`
 
-        /*const velChart = charts["speedChart"];
-        velChart.data.labels.push(time);
-        velChart.data.datasets[0].data.push(ax); // Magnitud de la aceleración
-        velChart.data.datasets[1].data.push(ay); // Magnitud de la aceleración
-        velChart.data.datasets[2].data.push(az); // Magnitud de la aceleración
+        if (lastTime === 0) {
+            lastTime = tiempo*1000;  // Inicializa el tiempo si es la primera vez
+            return;
+        }
+
+        const deltaTime = tiempo - lastTime;  // No necesitamos convertir a segundos, time.time() ya lo da en segundos
+
+        // Calcula la velocidad en cada eje usando la aceleración
+        /*vx += ax * deltaTime;
+        vy += ay * deltaTime;
+        //vz += az * deltaTime;
+
+        lastTime = tiempo*1000;
+
+        const velChart = charts["speedChart"];
+        velChart.data.labels.push(formattedTime);
+        velChart.data.datasets[0].data.push(vx); 
+        velChart.data.datasets[1].data.push(vy); 
+        velChart.data.datasets[2].data.push(vz); 
         velChart.update();
 
         document.getElementById("vx-box").innerText = `x : ${vx}  m/s`
         document.getElementById("vy-box").innerText = `y : ${vy}  m/s`
         document.getElementById("vz-box").innerText = `z : ${vz}  m/s`*/
 
-        document.getElementById("angulo-value").innerText = `${Math.sqrt(gx*gx + gy*gy + gz*gz)}`
+        document.getElementById("latency-value").innerText = `${time} ms`
+        //document.getElementById("angulo-value").innerText = `${Math.sqrt(gx*gx + gy*gy + gz*gz)}`
 
     })
 
@@ -317,20 +370,26 @@ function activate() {
         
         const {presion,temperatura, altitude, tiempo} = data
 
-        const currentTime = Date.now();
+        const currentTime = Date.now();  // Tiempo actual
+        const elapsedTime = currentTime - startTime;  // Tiempo transcurrido en milisegundos
+        const seconds = Math.floor(elapsedTime / 1000);  // Segundos
+        const milliseconds = elapsedTime % 1000;  // Milisegundos
+
+        const formattedTime = `${seconds}.${milliseconds.toString().padStart(3, '0')}`;
+
 
         let time = currentTime - tiempo *1000
         time = parseFloat(time.toFixed(2));
 
         const pressChart = charts["pressureChart"];
-        pressChart.data.labels.push(time);
+        pressChart.data.labels.push(formattedTime);
         pressChart.data.datasets[0].data.push(presion);
         pressChart.update();
         document.getElementById("pressure-value").innerText = `${presion}`
 
 
         const tempChart = charts["temperatureChart"];
-        tempChart.data.labels.push(time);
+        tempChart.data.labels.push(formattedTime);
         tempChart.data.datasets[0].data.push(temperatura);
         tempChart.update();
         document.getElementById("temperature-value").innerText = `${temperatura}`
@@ -341,16 +400,25 @@ function activate() {
         altitChart.data.datasets[0].data.push(altitude);
         altitChart.update();
 
+
+        document.getElementById("latency-value").innerText = `${time} ms`
         document.getElementById("altitude-box").innerText = `Altitud: ${altitude}`
 
     })
-
+    distancia = 1
     socket.on('GPS', (data)=>{
         console.log(data)
         
-        const {latitude, longitude, tiempo} = data
+        const {latitude, longitude, tiempo, distance} = data
 
+        const currentTime = Date.now();
+
+        let time = currentTime - tiempo *1000
+        time = parseFloat(time.toFixed(2));
+
+        document.getElementById("distance-value").innerText = `${distancia*2.7*seconds+60*minutes}`
         document.getElementById("latitude-box").innerText = `Latitud: ${latitude}`
+        document.getElementById("latency-value").innerText = `${time} ms`
         document.getElementById("longitude-box").innerText = `Latitud: ${longitude}`
     })
 
@@ -362,4 +430,16 @@ function activate() {
 initMissionBtn.addEventListener("click", activate);
 endMissionBtn.addEventListener("click", stopAndResetTimer);
 
+// Inicializar gráficos vacíos
+initializeChart("co2Chart", "CO2 (ppm)", "#ff5733");
+initializeChart("pressureChart", "Presión (Pa)", "#3366ff");
+initializeChart3("accelerationChart", "Aceleración (m/s²)", "#ff6600");
+initializeChart("temperatureChart", "Temperatura (°C)", "#ffcc00");
+initializeChart3("speedChart", "Velocidad (m/s)", "#9900cc");
+initializeChart("altitudeChart", "Altitud (m)", "#33cc33");
 
+initializeChart("co2ChartH", "CO2 (ppm)", "#ff5733", true);
+initializeChart("pressureChartH", "Presión (Pa)", "#3366ff", true);
+initializeChart("temperatureChartH", "Temperatura (°C)", "#ffcc00", true);
+initializeChart3("speedChartH", "Velocidad (m/s)", "#9900cc", true);
+initializeChart3("accelerationChartH", "Aceleración (m/s²)", "#ff6600", true);
