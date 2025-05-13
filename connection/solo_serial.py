@@ -25,7 +25,7 @@ def parse_line(line: str) -> dict:
     if not parts or len(parts) < 2:
         return {}
 
-    sensor_name = parts[0]
+    header_name = parts[0]
     data_dict = {}
     for item in parts[1:]:
         if ':' in item:
@@ -36,8 +36,7 @@ def parse_line(line: str) -> dict:
                 pass  # Mantén como string si no se puede convertir
             data_dict[key] = value
 
-    data_dict['tiempo'] = time.time()
-    return sensor_name, data_dict
+    return header_name, data_dict
 
 import numpy as np
 
@@ -66,7 +65,7 @@ def haversine(lon1, lat1, lon2, lat2):
     return c*r
 
 # Configurar tu puerto serial
-puerto = "COM7"
+puerto = "COM6"
 baudios = 9600
 
 try:
@@ -82,7 +81,7 @@ try:
         while True:
             if ser.in_waiting > 0:
                 raw_line = ser.readline().decode('utf-8', errors='ignore').strip()
-
+                print(raw_line)
                 if not raw_line:
                     continue
 
@@ -91,16 +90,24 @@ try:
                     print("[AVISO] No hay datos de radio disponibles aún.")
                     continue
 
-                sensor, dict_data = parse_line(raw_line)
+                if raw_line == "Header con error":
+                    print("[AVISO] Header incorrecto.")
+                    continue
+
+                if raw_line == "Radio OK":
+                    print("[AVISO] Antena encendida.")
+                    continue
+
+                header, dict_data = parse_line(raw_line)
                 if dict_data:
 
-                    if sensor == "GPS":
+                    if header == "200":
                         me_lat, me_lon = -12.016476269437243, -77.04890209378713
-                        dist = haversine(me_lat, me_lon, dict_data["latitude"], dict_data["longitude"])
-                        dict_data['distance'] = dist/1000
+                        #dist = haversine(me_lat, me_lon, dict_data["latitude"], dict_data["longitude"])
+                        #dict_data['distance'] = dist/1000
 
-                    print(sensor, dict_data)
-                    sio.emit(sensor, dict_data)
+                    print(header, dict_data)
+                    sio.emit(header, dict_data)
 
 
 

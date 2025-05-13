@@ -30,19 +30,24 @@ io.on('connection', (socket) => {
     console.log('Usuario desconectado:', socket.id);
   });
 
-  socket.on('MPU', (data) => {
+  socket.on('300', (data) => {
     console.log('Datos recibidos:', data);
-    io.emit('MPU', data);
+    io.emit('300', data);
   });
 
-  socket.on('BMP', (data) => {
+  socket.on('100', (data) => {
     console.log('Datos recibidos:', data);
-    io.emit('BMP', data);
+    io.emit('100', data);
   });
 
-  socket.on('GPS', (data) => {
+  socket.on('200', (data) => {
     console.log('Datos recibidos:', data);
-    io.emit('GPS', data);
+    io.emit('200', data);
+  });
+
+  socket.on('400', (data) => {
+    console.log('Datos recibidos:', data);
+    io.emit('400', data);
   });
 
 });

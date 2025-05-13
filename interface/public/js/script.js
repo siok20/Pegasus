@@ -1,16 +1,4 @@
-function linspace(start, stop, num) {
-    const step = (stop - start) / (num - 1);
-    const result = [];
-    for (let i = 0; i < num; i++) {
-        result.push(start + i * step);
-    }
-    return result;
-}
-
 let socket;
-
-const labels = linspace(0, 30, 31);
-const Hlabels = linspace(-400, 400, 801);
 
 // Objeto para guardar las instancias de los charts
 const charts = {};
@@ -124,31 +112,6 @@ function initializeChart3(canvasId, label, color, isAltitude = false) {
 }
 
 let dataInterval;
-// Actualiza datos cada segundo
-function addDataEverySecond() {
-    dataInterval = setInterval(() => {
-        const currentTime = charts["co2Chart"].data.labels.length;
-
-        for (const [id, chart] of Object.entries(charts)) {
-            chart.data.labels.push(currentTime);
-
-            const newValue = Math.random() * 10;
-            chart.data.datasets[0].data.push(newValue);
-
-            chart.update();
-        }
-
-        for (const [id, chart] of Object.entries(chartsH)) {
-            chart.data.labels.push(currentTime-400);
-
-            const newValue = Math.random() * 10;
-            chart.data.datasets[0].data.push(newValue);
-
-            chart.update();
-        }
-
-    }, 1000);
-}
 
 // Función para cambiar color de botones
 function changeColorOnClick(clickedBtn, otherBtn) {
@@ -242,9 +205,6 @@ function stopAndResetTimer() {
 chartsTime = document.querySelectorAll(".time-chart")
 chartsAltitude = document.querySelectorAll(".altitude-chart")
 
-/*chartsAltitude.forEach(chart => {
-    chart.style.display = 'none';  
-});*/
 
 function status_yellow(){
     document.getElementById('status-yellow').style.backgroundColor = 'yellow';
@@ -309,23 +269,22 @@ function activate() {
     let vx = 0, vy = 0, vz = 0;
     let lastTime = 0;
 
-    socket.on('MPU', (data)=>{
+    socket.on('300', (data)=>{
         console.log(data)
         
-        const {ax, ay, az, gx, gy, gz, tiempo} = data
+        const {ax, ay, az, gy, time} = data
 
-        const currentTime = Date.now();  // Tiempo actual
+        /*const currentTime = Date.now();  // Tiempo actual
         const elapsedTime = currentTime - startTime;  // Tiempo transcurrido en milisegundos
         const seconds = Math.floor(elapsedTime / 1000);  // Segundos
         const milliseconds = elapsedTime % 1000;  // Milisegundos
 
-        const formattedTime = `${seconds}.${milliseconds.toString().padStart(3, '0')}`;
+        const formattedTime = `${seconds}.${milliseconds.toString().padStart(3, '0')}`;*/
 
-        let time = currentTime - tiempo *1000
-        time = parseFloat(time.toFixed(2));
+        
 
         const accelChart = charts["accelerationChart"];
-        accelChart.data.labels.push(formattedTime);
+        accelChart.data.labels.push(time);
         accelChart.data.datasets[0].data.push(ax); // Magnitud de la aceleración
         accelChart.data.datasets[1].data.push(ay); // Magnitud de la aceleración
         accelChart.data.datasets[2].data.push(az); // Magnitud de la aceleración
@@ -335,13 +294,13 @@ function activate() {
         document.getElementById("ay-box").innerText = `y : ${ay}  m/s²`
         document.getElementById("az-box").innerText = `z : ${az}  m/s²`
 
-        if (lastTime === 0) {
+        /*if (lastTime === 0) {
             lastTime = tiempo*1000;  // Inicializa el tiempo si es la primera vez
             return;
         }
 
         const deltaTime = tiempo - lastTime;  // No necesitamos convertir a segundos, time.time() ya lo da en segundos
-
+*/
         // Calcula la velocidad en cada eje usando la aceleración
         /*vx += ax * deltaTime;
         vy += ay * deltaTime;
@@ -365,12 +324,35 @@ function activate() {
 
     })
 
-    socket.on('BMP', (data)=>{
+    socket.on('400', (data)=>{
+        console.log(data)
+
+        const {vx, vy, vz, CO2, time} = data
+
+        const velChart = charts["speedChart"];
+        velChart.data.labels.push(time);
+        velChart.data.datasets[0].data.push(vx); 
+        velChart.data.datasets[1].data.push(vy); 
+        velChart.data.datasets[2].data.push(vz); 
+        velChart.update();
+
+        document.getElementById("vx-box").innerText = `x : ${vx}  m/s`
+        document.getElementById("vy-box").innerText = `y : ${vy}  m/s`
+        document.getElementById("vz-box").innerText = `z : ${vz}  m/s`
+
+        const co2Chart = charts["co2Chart"];
+        co2Chart.data.labels.push(time);
+        co2Chart.data.datasets[0].data.push(CO2);
+        co2Chart.update();
+    
+    })
+
+    socket.on('100', (data)=>{
         console.log(data)
         
-        const {presion,temperatura, altitude, tiempo} = data
+        const {temperatura, presion, altitude, CO2 , time} = data
 
-        const currentTime = Date.now();  // Tiempo actual
+        /*const currentTime = Date.now();  // Tiempo actual
         const elapsedTime = currentTime - startTime;  // Tiempo transcurrido en milisegundos
         const seconds = Math.floor(elapsedTime / 1000);  // Segundos
         const milliseconds = elapsedTime % 1000;  // Milisegundos
@@ -378,18 +360,18 @@ function activate() {
         const formattedTime = `${seconds}.${milliseconds.toString().padStart(3, '0')}`;
 
 
-        let time = currentTime - tiempo *1000
-        time = parseFloat(time.toFixed(2));
+        //let time = currentTime - tiempo *1000
+        time = parseFloat(time.toFixed(2));*/
 
         const pressChart = charts["pressureChart"];
-        pressChart.data.labels.push(formattedTime);
+        pressChart.data.labels.push(time);
         pressChart.data.datasets[0].data.push(presion);
         pressChart.update();
         document.getElementById("pressure-value").innerText = `${presion}`
 
 
         const tempChart = charts["temperatureChart"];
-        tempChart.data.labels.push(formattedTime);
+        tempChart.data.labels.push(time);
         tempChart.data.datasets[0].data.push(temperatura);
         tempChart.update();
         document.getElementById("temperature-value").innerText = `${temperatura}`
@@ -400,26 +382,32 @@ function activate() {
         altitChart.data.datasets[0].data.push(altitude);
         altitChart.update();
 
+        const co2Chart = charts["co2Chart"];
+        co2Chart.data.labels.push(time);
+        co2Chart.data.datasets[0].data.push(CO2);
+        co2Chart.update();
+
+        document.getElementById("co2-value").innerText = `${CO2} `
 
         document.getElementById("latency-value").innerText = `${time} ms`
         document.getElementById("altitude-box").innerText = `Altitud: ${altitude}`
 
     })
     distancia = 1
-    socket.on('GPS', (data)=>{
+    socket.on('200', (data)=>{
         console.log(data)
         
-        const {latitude, longitude, tiempo, distance} = data
+        const {longitud, latitud, gx, gz, time} = data
 
         const currentTime = Date.now();
 
-        let time = currentTime - tiempo *1000
-        time = parseFloat(time.toFixed(2));
+        //let time = currentTime - tiempo *1000
+        //time = parseFloat(time.toFixed(2));
 
-        document.getElementById("distance-value").innerText = `${distancia*2.7*seconds+60*minutes}`
-        document.getElementById("latitude-box").innerText = `Latitud: ${latitude}`
+        //document.getElementById("distance-value").innerText = `${distancia*2.7*seconds+60*minutes}`
+        document.getElementById("latitude-box").innerText = `Latitud: ${latitud}`
         document.getElementById("latency-value").innerText = `${time} ms`
-        document.getElementById("longitude-box").innerText = `Latitud: ${longitude}`
+        document.getElementById("longitude-box").innerText = `Latitud: ${longitud}`
     })
 
     // Empezar a añadir datos
