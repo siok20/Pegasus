@@ -224,6 +224,23 @@ function status_red(){
     document.getElementById('status-green').style.backgroundColor = '#bbffb3';
 }
 
+function addData(chart, label, value, maxPoints = 1000) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset, i) => {
+        dataset.data.push(Array.isArray(value) ? value[i] : value);
+        if (dataset.data.length > maxPoints) {
+            dataset.data.shift();
+        }
+    });
+
+    if (chart.data.labels.length > maxPoints) {
+        chart.data.labels.shift();
+    }
+
+    chart.update();
+}
+
+
 let startTime;
 
 function activate() {
@@ -369,12 +386,22 @@ function activate() {
         pressChart.update();
         document.getElementById("pressure-value").innerText = `${presion}`
 
+        const pressChartH = charts["pressureChartH"];
+        pressChartH.data.labels.push(time);
+        pressChartH.data.datasets[0].data.push(altitude);
+        pressChartH.update();
+
 
         const tempChart = charts["temperatureChart"];
         tempChart.data.labels.push(time);
         tempChart.data.datasets[0].data.push(temperatura);
         tempChart.update();
         document.getElementById("temperature-value").innerText = `${temperatura}`
+
+        const tempChartH = charts["temperatureChartH"];
+        tempChartH.data.labels.push(altitude);
+        tempChartH.data.datasets[0].data.push(temperatura);
+        tempChartH.update();
 
 
         const altitChart = charts["altitudeChart"];
@@ -386,6 +413,11 @@ function activate() {
         co2Chart.data.labels.push(time);
         co2Chart.data.datasets[0].data.push(CO2);
         co2Chart.update();
+
+        const co2ChartH = charts["co2ChartH"];
+        co2ChartH.data.labels.push(time);
+        co2ChartH.data.datasets[0].data.push(CO2);
+        co2ChartH.update();
 
         document.getElementById("co2-value").innerText = `${CO2} `
 
