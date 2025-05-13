@@ -1,7 +1,5 @@
 import socketio
 import serial
-import time
-import json
 import geocoder
 
 # Configuración de Socket.IO
