@@ -5,21 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pegasus Ground Station</title>
-    <link rel="stylesheet" href="./css/styles.css">
-    <link rel="icon" type="image/png" href="./images/logo.png">    
+    <!--<link rel="stylesheet" href="./css/styles.css">
+    <link rel="icon" type="image/png" href="./images/logo.png"> -->   
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
-    <!--
+    
     <link rel="stylesheet" href="/public/css/styles.css">
     <link rel="icon" type="image/png" href="/public/images/logo.png">  
-    -->
+    
 
 </head>
 
 <body>
     <div id="ground-station">
         <header id="header">
-            <img src="images/logo.png" alt="Logo Pegasus" width="100">
+            <img src="/public/images/logo.png" alt="Logo Pegasus" width="100">
             <h1 id="header-text">Pegasus Ground Station</h1>
         </header>
         
@@ -123,7 +123,8 @@
                 <div id="info-btn">
                     <button id="info-btn-1">Tiempo</button>
                     <button id="info-btn-2">Altura</button>
-                </div>                <button id="settings-btn" onclick="location.href='options.html'">Ajustes</button>
+                </div>                
+                <button id="settings-btn" onclick="location.href='/public/options.html'">Ajustes</button>
                 <button id="end-mission-btn">Finalizar misión</button>
             </div>
         </section>

@@ -8,6 +8,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    overflow: hidden;
 }
 
 #ground-station {
@@ -18,7 +19,7 @@ body {
     background-color: #3A506B;
     border-radius: 10px;
     padding: 20px;
-    overflow: hidden;
+    overflow: hidden; 
 }
 
 #header {
@@ -232,7 +233,7 @@ canvas{
     display: flex;
     justify-content: space-evenly;
     flex-grow: 1; 
-    overflow: auto;
+    overflow: hidden;
     border-radius: 5px;
     flex-grow: 1;
 }

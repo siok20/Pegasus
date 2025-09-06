@@ -2,11 +2,11 @@ body {
     font-family: Arial, sans-serif;
     background-color: #2b3e50;
     margin: 0;
-    padding: 0;
+    padding: 20px;   /* pequeño padding para que no quede pegado */
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    min-height: 100vh; /* en lugar de height fija */
+    overflow-y: auto;  /* habilita scroll vertical */
 }
 
 .settings-container {
@@ -105,4 +105,68 @@ body {
 .active {
     background-color: #4a5d84;
     font-weight: bold;
+}
+
+/*Estilos de la tabla de logs */
+.logs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.logs-table th,
+.logs-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+}
+
+.logs-table th {
+    background-color: #34495e;
+    color: white;
+}
+
+.logs-table tr:nth-child(even) {
+    background-color: #f4f6f9;
+}
+
+.no-data {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+.btn-preview, .btn-download {
+    background-color: #7f8fb3; /* mismo tono base que los otros */
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+    margin: 0 5px; /* separación entre botones */
+    min-width: 120px;
+    text-align: center;
+}
+
+/* Hover general */
+.btn-preview:hover, .btn-download:hover {
+    background-color: #6b7c9c;
+}
+
+/* Diferencia visual */
+.btn-preview {
+    background-color: #4a90e2; /* azul para previsualizar */
+}
+.btn-preview:hover {
+    background-color: #357ab7;
+}
+
+.btn-download {
+    background-color: #27ae60; /* verde para descargar */
+}
+.btn-download:hover {
+    background-color: #1e8449;
 }

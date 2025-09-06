@@ -4,9 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pegasus Ground Station - Ajustes</title>
-    <link rel="icon" type="image/png" href="./images/logo.png">    
+    <link rel="icon" type="image/png" href="/public/images/logo.png">    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./css/options.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #333;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .no-data {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
     <div class="settings-container">
@@ -39,6 +64,23 @@
                 <button class="display-button">Últimos 10</button>
             </div>
         </div>
+
+        <div class="setting-group" style="flex-direction: column; align-items: stretch;">
+        <h2>Registro de Actividades</h2>
+        <table class="logs-table">
+            <thead>
+                <tr>
+                    <th>Logs</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="no-data" colspan="3">No data disponible</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+    <script src="./js/options.js"></script>
 </body>
 </html>
