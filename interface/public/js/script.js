@@ -68,7 +68,7 @@ function initializeChart3(canvasId, label, color, isAltitude = false) {
                 {
                     label:  label.charAt(0).toLowerCase() + "y",
                     data: [],
-                    borderColor: "#00ff00",  // Cambia este color a tu preferencia
+                    borderColor: "#00ff00",    
                     backgroundColor: "transparent",
                     fill: false,
                     tension: 0.4
@@ -76,7 +76,7 @@ function initializeChart3(canvasId, label, color, isAltitude = false) {
                 {
                     label:  label.charAt(0).toLowerCase() + "z",
                     data: [],
-                    borderColor: "#0000ff",  // Cambia este color a tu preferencia
+                    borderColor: "#0000ff",    
                     backgroundColor: "transparent",
                     fill: false,
                     tension: 0.4
@@ -250,7 +250,7 @@ function activate() {
     btn1.disabled = false;
     btn2.disabled = false;
 
-    socket = io('http://localhost:3000', {
+    socket = io('http://localhost:3000' ,{
         reconnectionAttempts: 5,
         timeout: 2000
     });
@@ -386,11 +386,10 @@ function activate() {
         pressChart.update();
         document.getElementById("pressure-value").innerText = `${presion}`
 
-        const pressChartH = charts["pressureChartH"];
-        pressChartH.data.labels.push(time);
-        pressChartH.data.datasets[0].data.push(altitude);
+        const pressChartH = chartsH["pressureChartH"];
+        pressChartH.data.labels.push(altitude);
+        pressChartH.data.datasets[0].data.push(presion);
         pressChartH.update();
-
 
         const tempChart = charts["temperatureChart"];
         tempChart.data.labels.push(time);
@@ -398,7 +397,7 @@ function activate() {
         tempChart.update();
         document.getElementById("temperature-value").innerText = `${temperatura}`
 
-        const tempChartH = charts["temperatureChartH"];
+        const tempChartH = chartsH["temperatureChartH"];
         tempChartH.data.labels.push(altitude);
         tempChartH.data.datasets[0].data.push(temperatura);
         tempChartH.update();
@@ -414,8 +413,8 @@ function activate() {
         co2Chart.data.datasets[0].data.push(CO2);
         co2Chart.update();
 
-        const co2ChartH = charts["co2ChartH"];
-        co2ChartH.data.labels.push(time);
+        const co2ChartH = chartsH["co2ChartH"];
+        co2ChartH.data.labels.push(altitude);
         co2ChartH.data.datasets[0].data.push(CO2);
         co2ChartH.update();
 

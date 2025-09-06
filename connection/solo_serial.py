@@ -5,9 +5,13 @@ import geocoder
 # Configuración de Socket.IO
 sio = socketio.Client(reconnection=True, reconnection_attempts=5, reconnection_delay=1000)
 
+from datetime import datetime
+
 @sio.event
 def connect():
     print("Conectado al servidor de Socket.IO")
+    now = datetime.now().isoformat(timespec="milliseconds")
+    sio.emit("fecha_hora", {"datetime": now})
 
 @sio.event
 def connect_error(error):
@@ -31,16 +35,14 @@ def parse_line(line: str) -> dict:
             try:
                 value = float(value)
             except ValueError:
-                pass  # Mantén como string si no se puede convertir
+                pass  
             data_dict[key] = value
 
     return header_name, data_dict
 
 import numpy as np
 
-def haversine(lon1, lat1, lon2, lat2):
-    
-    
+def haversine(lon1, lat1, lon2, lat2):   
     lon1 = np.radians(lon1)
     lat1 = np.radians(lat1)
     lon2 = np.radians(lon2)
@@ -63,7 +65,7 @@ def haversine(lon1, lat1, lon2, lat2):
     return c*r
 
 # Configurar tu puerto serial
-puerto = "COM6"
+puerto = "COM5"
 baudios = 9600
 
 try:
