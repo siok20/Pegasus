@@ -1,5 +1,5 @@
 # Imagen base con Node.js (elige la versión que uses en tu proyecto)
-FROM node:20-alpine
+FROM node:20
 
 # Directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY ./server/package*.json ./
 
 # Instalamos dependencias
-RUN npm install --production
+RUN npm install
 
 # Copiamos el resto del código de la aplicación
 COPY ./server .
